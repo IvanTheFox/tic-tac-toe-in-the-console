@@ -1,3 +1,4 @@
+package app;
 public class GameField {
     private CellState [][] Cells;
     public GameField() {
@@ -8,17 +9,17 @@ public class GameField {
             }
         }
     }
-    public void Reset(){
-        for (var CellRow:Cells){
-            for(var Cell:CellRow){
-                Cell=CellState.Empty;
+    public void Reset() {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                Cells[x][y] = CellState.Empty;
             }
         }
     }
     public void Mark(int x,int y, CellState state){
-        Cells [x-1][y-1]=state;
+        Cells [x][y]=state;
     }
     public CellState GetState(int x, int y){
-        return Cells[x-1][y-1];
+        return Cells[x][y];
     }
 }
