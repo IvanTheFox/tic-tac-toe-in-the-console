@@ -1,3 +1,5 @@
+package app;
+
 public enum CellState {
     Empty(0),
     Cross(1),
