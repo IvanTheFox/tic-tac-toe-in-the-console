@@ -3,9 +3,9 @@ public class GameField {
     private CellState [][] Cells;
     public GameField() {
         Cells = new CellState[3][3];
-        for (var CellRow:Cells){
-            for (var Cell:CellRow){
-                Cell=CellState.Empty;
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                Cells[x][y] = CellState.Empty;
             }
         }
     }
