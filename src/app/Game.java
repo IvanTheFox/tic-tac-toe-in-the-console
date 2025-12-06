@@ -8,8 +8,8 @@ public class Game {
         field.Reset();
     }
 
-    Game(GameField _field){
-        this.field = _field;
+    Game(){
+        this.field = new GameField();
         isCrossNext = true;
     }
 
