@@ -6,16 +6,18 @@ public class Game {
 
     public void Reset(){
         field.Reset();
-    };
-    // Возвращает true, если ход совершен, в противном случае - false
-    public boolean PlaceMark(int x, int y, CellState newState){
+    }
+
+    public void PlaceMark(int x, int y, CellState newState) throws Exception {
         CellState oldState = field.GetState(x,y);
         if (oldState == CellState.Empty){
             field.Mark(x,y,newState);
-            return true;
         }
-        return false;
-    };
+        else {
+            throw new Exception("Эта клетка уже занята!");
+        }
+    }
+    
     public CellState CheckWin(GameField field){
         // Проверка диагоналей для крестика
         boolean crossWinToRight = true;
@@ -64,5 +66,5 @@ public class Game {
         }
         // Случай ничьи
         return CellState.Empty;
-    };
+    }
 }
