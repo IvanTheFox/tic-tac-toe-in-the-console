@@ -27,7 +27,18 @@ public class Game {
         if (crossWinToLeft || crossWinToRight){
             return CellState.Cross;
         }
-
+        // Проверка вертикалей и горизонталей для крестика
+        boolean crossWinOnRows = true;
+        boolean crossWinOnCols = true;
+        for (int col = 1; col < 4; col++) {
+            for (int row = 1; row < 4; row++) {
+                crossWinOnRows = crossWinOnRows & (field.GetState(row, col) == CellState.Cross);
+                crossWinOnCols = crossWinOnRows & (field.GetState(col, row) == CellState.Cross);
+            }
+        }
+        if (crossWinOnCols || crossWinOnRows){
+            return CellState.Cross;
+        }
 
         return CellState.Empty;
     };
