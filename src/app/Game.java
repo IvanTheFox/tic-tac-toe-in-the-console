@@ -9,6 +9,9 @@ public class Game {
     }
 
     public void PlaceMark(int x, int y, CellState newState) throws Exception {
+        if (newState == CellState.Empty){
+            throw new Exception("Нельзя очистить заполненную клетку!");
+        }
         CellState oldState = field.GetState(x,y);
         if (oldState == CellState.Empty){
             field.Mark(x,y,newState);
@@ -17,7 +20,7 @@ public class Game {
             throw new Exception("Эта клетка уже занята!");
         }
     }
-    
+
     public CellState CheckWin(GameField field){
         // Проверка диагоналей для крестика
         boolean crossWinToRight = true;
