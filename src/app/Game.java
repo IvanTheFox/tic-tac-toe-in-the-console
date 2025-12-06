@@ -8,12 +8,18 @@ public class Game {
         field.Reset();
     }
 
-    Game(){
+    public Game(){
         this.field = new GameField();
         isCrossNext = true;
     }
 
     public void PlaceMark(int x, int y) throws Exception {
+        if (!(1 <= x && x <= 3)){
+            throw new Exception("Недопустимые координаты для x");
+        }
+        if (!(1 <= y && y <= 3)){
+            throw new Exception("Недопустимые координаты для y");
+        }
         CellState newState;
         if (isCrossNext) {
             newState = CellState.Cross;
@@ -21,9 +27,9 @@ public class Game {
         else {
             newState = CellState.Circle;
         }
-        CellState oldState = field.GetState(x,y);
+        CellState oldState = field.GetState(x-1,y-1);
         if (oldState == CellState.Empty){
-            field.Mark(x,y,newState);
+            field.Mark(x-1,y-1,newState);
         }
         else {
             throw new Exception("Эта клетка уже занята!");
@@ -35,8 +41,8 @@ public class Game {
         boolean crossWinToRight = true;
         boolean crossWinToLeft = true;
         for (int i = 1; i < 4; i++){
-            crossWinToRight = crossWinToRight & (field.GetState(i,i) == CellState.Cross);
-            crossWinToLeft = crossWinToLeft & (field.GetState(4-i,i) == CellState.Cross);
+            crossWinToRight = crossWinToRight & (field.GetState(i-1,i-1) == CellState.Cross);
+            crossWinToLeft = crossWinToLeft & (field.GetState(4-i-1,i-1) == CellState.Cross);
         }
         if (crossWinToLeft || crossWinToRight){
             return CellState.Cross;
@@ -46,8 +52,8 @@ public class Game {
         boolean crossWinOnCols = true;
         for (int col = 1; col < 4; col++) {
             for (int row = 1; row < 4; row++) {
-                crossWinOnRows = crossWinOnRows & (field.GetState(row, col) == CellState.Cross);
-                crossWinOnCols = crossWinOnRows & (field.GetState(col, row) == CellState.Cross);
+                crossWinOnRows = crossWinOnRows & (field.GetState(row-1, col-1) == CellState.Cross);
+                crossWinOnCols = crossWinOnRows & (field.GetState(col-1, row-1) == CellState.Cross);
             }
         }
         if (crossWinOnCols || crossWinOnRows){
@@ -58,8 +64,8 @@ public class Game {
         boolean circleWinToRight = true;
         boolean circleWinToLeft = true;
         for (int i = 1; i < 4; i++){
-            circleWinToRight = circleWinToRight & (field.GetState(i,i) == CellState.Circle);
-            circleWinToLeft = circleWinToLeft & (field.GetState(4-i,i) == CellState.Circle);
+            circleWinToRight = circleWinToRight & (field.GetState(i-1,i-1) == CellState.Circle);
+            circleWinToLeft = circleWinToLeft & (field.GetState(4-i-1,i-1) == CellState.Circle);
         }
         if (circleWinToLeft || circleWinToRight){
             return CellState.Circle;
@@ -69,8 +75,8 @@ public class Game {
         boolean circleWinOnCols = true;
         for (int col = 1; col < 4; col++) {
             for (int row = 1; row < 4; row++) {
-                circleWinOnRows = circleWinOnRows & (field.GetState(row, col) == CellState.Circle);
-                circleWinOnCols = circleWinOnRows & (field.GetState(col, row) == CellState.Circle);
+                circleWinOnRows = circleWinOnRows & (field.GetState(row-1, col-1) == CellState.Circle);
+                circleWinOnCols = circleWinOnRows & (field.GetState(col-1, row-1) == CellState.Circle);
             }
         }
         if (circleWinOnCols || circleWinOnRows){
