@@ -16,7 +16,18 @@ public class Game {
         }
         return false;
     };
-    public CellState CheckWin(){
+    public CellState CheckWin(GameField field){
+        // Проверка диагоналей для крестика
+        boolean crossWinToRight = true;
+        boolean crossWinToLeft = true;
+        for (int i = 1; i < 4; i++){
+            crossWinToRight = crossWinToRight & (field.GetState(i,i) == CellState.Cross);
+            crossWinToLeft = crossWinToLeft & (field.GetState(4-i,i) == CellState.Cross);
+        }
+        if (crossWinToLeft || crossWinToRight){
+            return CellState.Cross;
+        }
+
 
         return CellState.Empty;
     };
