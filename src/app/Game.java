@@ -8,9 +8,18 @@ public class Game {
         field.Reset();
     }
 
-    public void PlaceMark(int x, int y, CellState newState) throws Exception {
-        if (newState == CellState.Empty){
-            throw new Exception("Нельзя очистить заполненную клетку!");
+    Game(GameField _field){
+        this.field = _field;
+        isCrossNext = true;
+    }
+
+    public void PlaceMark(int x, int y) throws Exception {
+        CellState newState;
+        if (isCrossNext) {
+            newState = CellState.Cross;
+        }
+        else {
+            newState = CellState.Circle;
         }
         CellState oldState = field.GetState(x,y);
         if (oldState == CellState.Empty){
@@ -21,7 +30,7 @@ public class Game {
         }
     }
 
-    public CellState CheckWin(GameField field){
+    public CellState CheckWin(){
         // Проверка диагоналей для крестика
         boolean crossWinToRight = true;
         boolean crossWinToLeft = true;
