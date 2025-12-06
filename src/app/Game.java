@@ -40,6 +40,29 @@ public class Game {
             return CellState.Cross;
         }
 
+        // Проверка диагоналей для нолика
+        boolean circleWinToRight = true;
+        boolean circleWinToLeft = true;
+        for (int i = 1; i < 4; i++){
+            circleWinToRight = circleWinToRight & (field.GetState(i,i) == CellState.Circle);
+            circleWinToLeft = circleWinToLeft & (field.GetState(4-i,i) == CellState.Circle);
+        }
+        if (circleWinToLeft || circleWinToRight){
+            return CellState.Circle;
+        }
+        // Проверка вертикалей и горизонталей для нолика
+        boolean circleWinOnRows = true;
+        boolean circleWinOnCols = true;
+        for (int col = 1; col < 4; col++) {
+            for (int row = 1; row < 4; row++) {
+                circleWinOnRows = circleWinOnRows & (field.GetState(row, col) == CellState.Circle);
+                circleWinOnCols = circleWinOnRows & (field.GetState(col, row) == CellState.Circle);
+            }
+        }
+        if (circleWinOnCols || circleWinOnRows){
+            return CellState.Circle;
+        }
+        // Случай ничьи
         return CellState.Empty;
     };
 }
