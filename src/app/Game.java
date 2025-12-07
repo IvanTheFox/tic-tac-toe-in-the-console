@@ -40,6 +40,20 @@ public class Game {
 
     }
 
+    public boolean IsFieldFull() {
+        boolean flag = true;
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                if (this.field.GetState(x, y) == CellState.Empty) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+
+        return flag;
+    }
+
     public CellState CheckWin(){
         // Проверка диагоналей для крестика
         boolean crossWinToRight = true;
