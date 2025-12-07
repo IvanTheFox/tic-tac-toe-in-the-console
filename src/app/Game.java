@@ -1,7 +1,7 @@
 package app;
 
 public class Game {
-    private GameField field;
+    public GameField field;
     private boolean isCrossNext;
 
     public void Reset(){
