@@ -38,14 +38,23 @@ public class UI {
                     return true;
 
                 case "place":
-                    if ((inputArr.length==3)/*&&(inputArr[1].equals("1")||inputArr[1].equals("2")||inputArr[1].equals("3"))&&(inputArr[2].equals("1")||inputArr[2].equals("2")||inputArr[2].equals("3"))*/) {
+                    if (inputArr.length==3) {
                         game.PlaceMark(Integer.parseInt(inputArr[1]),Integer.parseInt(inputArr[2]));
                         ShowField();
+                        if(game.CheckWin()!=CellState.Empty||game.IsFieldFull()) {
+                            AnnounceWin(game.CheckWin());
+                        }
+                    } else {
+                        throw new Exception("Недопустимый формат ввода координат");
                     }
                     return true;
+                
                 default:
-                    return true;
+                    throw new Exception("Недопустимый формат ввода");
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Недопустимые координаты");
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return true;
@@ -72,11 +81,11 @@ public class UI {
                 }
             }
             System.out.println("");
-            System.out.println(fieldToShow[0][2]+"│"+fieldToShow[1][2]+"│"+fieldToShow[2][2]);
-            System.out.println("─┼─┼─");
-            System.out.println(fieldToShow[0][1]+"│"+fieldToShow[1][1]+"│"+fieldToShow[2][1]);
-            System.out.println("─┼─┼─");
-            System.out.println(fieldToShow[0][0]+"│"+fieldToShow[1][0]+"│"+fieldToShow[2][0]);
+            System.out.println(fieldToShow[0][0]+" │ "+fieldToShow[1][0]+" │ "+fieldToShow[2][0]);
+            System.out.println("──┼───┼──");
+            System.out.println(fieldToShow[0][1]+" │ "+fieldToShow[1][1]+" │ "+fieldToShow[2][1]);
+            System.out.println("──┼───┼──");
+            System.out.println(fieldToShow[0][2]+" │ "+fieldToShow[1][2]+" │ "+fieldToShow[2][2]);
             System.out.println("");
         } catch (Exception e) {
             System.out.println(e.getMessage());
