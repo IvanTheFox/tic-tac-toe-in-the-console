@@ -8,6 +8,10 @@ public class UI {
     public UI(){
         game = new Game();
     }
+    public boolean AppStart() {
+        String input = GetLine("place [..] [..], чтобы сделать ход в указанных координатах,\nreset, чтобы начать игру заново\nили exit, чтобы завершить работу приложения");
+        return ParseCommand(input);
+    }
     public String GetLine(String text) {
         try {
             scanner = new Scanner(System.in);
@@ -20,63 +24,79 @@ public class UI {
         } catch (Exception e) {
             return "";
         }
-        finally{
-            scanner.close();
-        }
-        
     }
-    public void ParseCommand(String input) {
+    public boolean ParseCommand(String input) {
         try {
-            String input1 = input.split(" ")[0];
-            switch (input1) {               
+            String[] inputArr = input.split("\s");
+            switch (inputArr[0]) {
                 case "exit":
-                    break;
+                    return false;
 
                 case "reset":
                     game.Reset();
-                    break;
+                    ShowField();
+                    return true;
 
                 case "place":
-                    ShowField();
-                    game.PlaceMark(Integer.parseInt(input.split(" ")[1]),Integer.parseInt(input.split(" ")[2]));
-                    break;
-
+                    if ((inputArr.length==3)/*&&(inputArr[1].equals("1")||inputArr[1].equals("2")||inputArr[1].equals("3"))&&(inputArr[2].equals("1")||inputArr[2].equals("2")||inputArr[2].equals("3"))*/) {
+                        game.PlaceMark(Integer.parseInt(inputArr[1]),Integer.parseInt(inputArr[2]));
+                        ShowField();
+                    }
+                    return true;
                 default:
-                    ParseCommand(input);
-                    break;
-        }
+                    return true;
+            }
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e.getMessage());
+            return true;
         }
         
     }
     public void ShowField() {
-        GameField field = game.field;
-        System.out.println(field.GetState(1,3).toString()+"│"+field.GetState(2,3).toString()+"│"+field.GetState(3,3).toString());
-        System.out.println("─┼─┼─");
-        System.out.println(field.GetState(1,2).toString()+"│"+field.GetState(2,2).toString()+"│"+field.GetState(3,2).toString());
-        System.out.println("─┼─┼─");
-        System.out.println(field.GetState(1,1).toString()+"│"+field.GetState(2,1).toString()+"│"+field.GetState(3,1).toString());
-        System.out.println("");
+        try {
+            GameField field = game.field;
+            String[][] fieldToShow = new String[3][3];
+            for (int i=0; i<3; i++) {
+                for (int j=0; j<3; j++) {
+                    switch (field.GetState(i,j)){
+                        case CellState.Cross:
+                            fieldToShow[i][j]="X";
+                            break;
+                        case CellState.Circle:
+                            fieldToShow[i][j]="O";
+                            break;
+                        case CellState.Empty:
+                            fieldToShow[i][j]=" ";
+                            break;
+                    }
+                }
+            }
+            System.out.println("");
+            System.out.println(fieldToShow[0][2]+"│"+fieldToShow[1][2]+"│"+fieldToShow[2][2]);
+            System.out.println("─┼─┼─");
+            System.out.println(fieldToShow[0][1]+"│"+fieldToShow[1][1]+"│"+fieldToShow[2][1]);
+            System.out.println("─┼─┼─");
+            System.out.println(fieldToShow[0][0]+"│"+fieldToShow[1][0]+"│"+fieldToShow[2][0]);
+            System.out.println("");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
     }
     public void AnnounceWin(CellState winner){
         switch (winner) {
             case CellState.Cross:
-                System.out.println("Crosses won!");
+                System.out.println("Крестики выиграли!");
                 break;
             case CellState.Circle:
-                System.out.println("Circles won!");
+                System.out.println("Круги выиграли!");
                 break;
             case CellState.Empty:
-                System.out.println("Draw!");
+                System.out.println("Ничья!");
                 break;
             default:
                 break;
         }
         System.out.println();
-    }
-    public void AppStart() {
-        String input = GetLine("Enter place, reset or exit");
-        ParseCommand(input);
     }
 }
